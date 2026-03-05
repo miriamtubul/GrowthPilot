@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GrowthPilot — מערכות AI שמטיסות את העסק קדימה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#135bec;--primary-dark:#0a3d9e;--primary-light:#e8f0fe;--primary-glow:rgba(19,91,236,.15);
+  --purple:#7c3aed;--purple-dark:#5b21b6;--purple-light:#ede9fe;--purple-glow:rgba(124,58,237,.15);
+  --bg:#fff;--bg-subtle:#f6f6f8;--text:#101622;--text-muted:#64748b;--text-light:#94a3b8;
+  --border:rgba(19,91,236,.1);--border-h:rgba(19,91,236,.35);
+  --sh-sm:0 1px 3px rgba(16,22,34,.06);--sh-md:0 4px 16px rgba(16,22,34,.08);
+  --sh-lg:0 12px 40px rgba(16,22,34,.1);--sh-p:0 8px 32px rgba(19,91,236,.28);--sh-pu:0 8px 32px rgba(124,58,237,.28);
+  --r-sm:8px;--r-md:14px;--r-lg:20px;--r-xl:28px;--mw:1100px
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes shimmer{0%{left:-100%}100%{left:120%}}
+@keyframes profileReveal{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.au{opacity:0;animation:fadeUp .75s cubic-bezier(.22,1,.36,1) forwards}
+.d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.25s}
+.d4{animation-delay:.35s}.d5{animation-delay:.45s}.d6{animation-delay:.55s}
+
+/* NAVBAR */
+.navbar{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.92);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:2px solid rgba(19,91,236,.13);padding:0 28px;height:80px;display:flex;align-items:center;box-shadow:0 2px 24px rgba(19,91,236,.07)}
+.navbar-inner{max-width:var(--mw);margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--text)}
+.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--primary),#4f7cf7);border-radius:13px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;flex-shrink:0;box-shadow:0 4px 16px rgba(19,91,236,.38)}
+.logo-texts{display:flex;flex-direction:column;gap:2px}
+.logo-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:-.03em;color:var(--text);line-height:1}
+.logo-tag{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:var(--primary);line-height:1;letter-spacing:.01em}
+.nav-links{display:flex;align-items:center;gap:2px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--text-muted);font-size:.92rem;font-weight:600;padding:8px 16px;border-radius:10px;transition:color .2s,background .2s;letter-spacing:.01em}
+.nav-links a:hover,.nav-links a.active{color:var(--primary);background:var(--primary-light)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.mobile-tagline{display:none;text-align:center;padding:7px 16px;background:var(--primary);color:#fff;font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.03em;line-height:1}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.95rem;padding:12px 24px;border-radius:var(--r-md);border:none;cursor:pointer;text-decoration:none;transition:all .25s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;white-space:nowrap}
+.btn::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);pointer-events:none}
+.btn:hover::after{animation:shimmer .55s ease}
+.btn-p{background:var(--primary);color:#fff;box-shadow:var(--sh-p)}
+.btn-p:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 12px 40px rgba(19,91,236,.38)}
+.btn-pu{background:var(--purple);color:#fff;box-shadow:var(--sh-pu)}
+.btn-pu:hover{background:var(--purple-dark);transform:translateY(-2px);box-shadow:0 12px 40px rgba(124,58,237,.38)}
+.btn-sec{background:#fff;color:var(--text);border:1.5px solid var(--border)}
+.btn-sec:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-2px);box-shadow:var(--sh-md)}
+.btn-pu-out{background:transparent;color:var(--purple);border:1.5px solid rgba(124,58,237,.25)}
+.btn-pu-out:hover{background:var(--purple-light);border-color:var(--purple);transform:translateY(-2px)}
+.btn-sm{padding:9px 18px;font-size:.85rem}
+.btn-lg{padding:15px 32px;font-size:1rem}
+
+/* LAYOUT */
+.container{max-width:var(--mw);margin:0 auto;padding:0 28px}
+section{padding:88px 28px}
+section.subtle{background:var(--bg-subtle)}
+.sec-label{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:var(--primary);background:var(--primary-light);padding:5px 14px;border-radius:100px;margin-bottom:18px}
+.sec-label.pu{color:var(--purple);background:var(--purple-light)}
+.sec-title{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;color:var(--text);letter-spacing:-.025em;margin-bottom:14px;line-height:1.15}
+.sec-sub{font-size:1.05rem;color:var(--text-muted);max-width:520px;line-height:1.75}
+
+/* HERO */
+@keyframes blobMove{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.05)}66%{transform:translate(-20px,15px) scale(.97)}}
+@keyframes fadeInScale{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.hero{position:relative;overflow:hidden;padding:100px 28px 110px;background:#fff}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(19,91,236,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(19,91,236,.03) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.hero-blob1{position:absolute;top:-140px;right:-100px;width:680px;height:680px;background:radial-gradient(circle,rgba(19,91,236,.11) 0%,transparent 70%);border-radius:50%;pointer-events:none;animation:blobMove 12s ease-in-out infinite}
+.hero-blob2{position:absolute;bottom:-80px;left:10%;width:480px;height:480px;background:radial-gradient(circle,rgba(99,102,241,.09) 0%,transparent 70%);border-radius:50%;pointer-events:none;animation:blobMove 16s ease-in-out infinite reverse}
+.hero-blob3{position:absolute;top:30%;left:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(19,91,236,.05) 0%,transparent 70%);border-radius:50%;pointer-events:none;animation:blobMove 10s ease-in-out infinite 3s}
+.hero-inner{max-width:var(--mw);margin:0 auto;display:grid;grid-template-columns:52% 48%;gap:56px;align-items:center;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--primary);background:var(--primary-light);padding:7px 18px;border-radius:100px;margin-bottom:24px;border:1px solid rgba(19,91,236,.18)}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(2.6rem,5.5vw,4.2rem);font-weight:800;color:var(--text);letter-spacing:-.035em;line-height:1.06;margin-bottom:18px}
+.hero-tagline{font-family:'Syne',sans-serif;font-size:clamp(1.35rem,2.6vw,2rem);font-weight:700;color:var(--primary);letter-spacing:-.02em;line-height:1.2;margin-bottom:14px}
+.hero-sub{font-size:1.07rem;color:var(--text-muted);line-height:1.8;margin-bottom:40px;max-width:460px}
+.hero-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:40px}
+.hero-visual{position:relative}
+.hero-img-wrap{position:relative;border-radius:var(--r-xl);overflow:hidden;box-shadow:0 24px 80px rgba(19,91,236,.18),0 0 0 1px rgba(19,91,236,.1);aspect-ratio:3/4;animation:fadeInScale .9s .2s cubic-bezier(.22,1,.36,1) both}
+.hero-img-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(19,91,236,.15) 0%,transparent 55%);pointer-events:none}
+.fc{position:absolute;background:#fff;border-radius:var(--r-md);padding:13px 18px;box-shadow:0 16px 48px rgba(16,22,34,.15);display:flex;align-items:center;gap:11px;z-index:2;border:1px solid rgba(19,91,236,.1)}
+.fc1{bottom:-22px;left:-28px;animation:float 4.5s ease-in-out infinite}
+.fc2{top:-22px;right:-28px;animation:float 4.5s ease-in-out infinite 2.2s}
+.fc-icon{width:38px;height:38px;background:var(--primary-light);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:20px;flex-shrink:0}
+.fc-label{font-size:.68rem;color:var(--text-light);font-weight:500}
+.fc-value{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text);line-height:1.2}
+
+/* VALUE PROPS */
+.val-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
+.val-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:all .3s cubic-bezier(.22,1,.36,1);position:relative}
+.val-card:hover{transform:translateY(-7px);box-shadow:var(--sh-lg);border-color:var(--border-h)}
+.val-img{aspect-ratio:16/9;overflow:hidden;position:relative}
+.val-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s ease}
+.val-card:hover .val-img img{transform:scale(1.06)}
+.val-img-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(10,22,40,.4) 100%)}
+.val-body{padding:24px}
+.v-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:22px}
+.ic-bl{background:#dbeafe;color:#2563eb}.ic-pu{background:#ede9fe;color:#7c3aed}.ic-tl{background:#ccfbf1;color:#0d9488}
+.val-card h3{font-family:'Syne',sans-serif;font-size:1.08rem;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-.01em}
+.val-card p{font-size:.88rem;color:var(--text-muted);line-height:1.72}
+
+/* SERVICES */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px}
+.svc-card{background:#fff;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;transition:all .3s cubic-bezier(.22,1,.36,1)}
+.svc-card:hover{transform:translateY(-7px);box-shadow:var(--sh-lg);border-color:var(--border-h)}
+.svc-img{aspect-ratio:16/9;overflow:hidden;position:relative}
+.svc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s ease}
+.svc-card:hover .svc-img img{transform:scale(1.06)}
+.svc-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(10,22,40,.45) 100%)}
+.svc-body{padding:24px}
+.svc-tag{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);margin-bottom:8px}
+.svc-body h3{font-family:'Syne',sans-serif;font-size:1.12rem;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-.01em}
+.svc-body p{font-size:.875rem;color:var(--text-muted);line-height:1.72}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:52px}
+.team-card{border-radius:var(--r-xl);padding:36px 32px;transition:all .3s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden}
+.tc-blue{background:#fff;border:1.5px solid rgba(19,91,236,.12)}
+.tc-blue:hover{transform:translateY(-5px);box-shadow:0 20px 60px rgba(19,91,236,.12);border-color:rgba(19,91,236,.3)}
+.tc-purple{background:#fff;border:1.5px solid rgba(124,58,237,.12)}
+.tc-purple:hover{transform:translateY(-5px);box-shadow:0 20px 60px rgba(124,58,237,.12);border-color:rgba(124,58,237,.3)}
+.tc-bar{position:absolute;top:0;left:0;right:0;height:5px;border-radius:var(--r-xl) var(--r-xl) 0 0}
+.bar-bl{background:linear-gradient(90deg,var(--primary),#6366f1)}
+.bar-pu{background:linear-gradient(90deg,var(--purple),#a855f7)}
+.tc-top{display:flex;align-items:center;gap:18px;margin-bottom:20px}
+.tc-avatar{width:68px;height:68px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#fff;flex-shrink:0;letter-spacing:.02em}
+.av-bl{background:linear-gradient(135deg,var(--primary),#6366f1);box-shadow:0 6px 20px rgba(19,91,236,.35)}
+.av-pu{background:linear-gradient(135deg,var(--purple),#a855f7);box-shadow:0 6px 20px rgba(124,58,237,.35)}
+.tc-name{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--text);letter-spacing:-.02em;margin-bottom:3px}
+.tc-role{font-size:.82rem;color:var(--text-muted);font-weight:500}
+.tc-bio{font-size:.9rem;color:var(--text-muted);line-height:1.72;margin-bottom:24px}
+.tc-skills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.sk{font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:100px}
+.sk-bl{background:var(--primary-light);color:var(--primary)}
+.sk-pu{background:var(--purple-light);color:var(--purple)}
+
+/* PROFILE */
+.profile-sec{display:none}
+.profile-sec.active{display:block;animation:profileReveal .5s cubic-bezier(.22,1,.36,1) forwards}
+.back-bar{padding:18px 28px;background:var(--bg-subtle);border-bottom:1px solid var(--border)}
+.back-bar .container{display:flex;align-items:center;gap:16px}
+.back-btn{display:inline-flex;align-items:center;gap:8px;font-size:.88rem;font-weight:600;cursor:pointer;text-decoration:none;padding:8px 18px;border-radius:var(--r-sm);transition:all .2s;border:none;background:#fff;color:var(--text-muted);box-shadow:var(--sh-sm)}
+.back-btn.bl:hover{color:var(--primary);background:var(--primary-light)}
+.back-btn.pu:hover{color:var(--purple);background:var(--purple-light)}
+.breadcrumb{font-size:.82rem;color:var(--text-light)}
+.breadcrumb span{color:var(--text-muted)}
+
+/* PROFILE HERO */
+.ph{position:relative;overflow:hidden;padding:64px 28px 72px}
+.ph-content-wrap{max-width:var(--mw);margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:52px;align-items:start}
+@media(max-width:900px){.ph-content-wrap{grid-template-columns:1fr;gap:32px}}
+.ph-bl{background:linear-gradient(135deg,#f8faff 0%,#eef3fe 60%,#fff 100%)}
+.ph-pu{background:linear-gradient(135deg,#faf8ff 0%,#f0ebfe 60%,#fff 100%)}
+.ph::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(19,91,236,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(19,91,236,.025) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.ph-pu::before{background-image:linear-gradient(rgba(124,58,237,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.025) 1px,transparent 1px)}
+.ph-inner{max-width:var(--mw);margin:0 auto;position:relative}
+.ph-name{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-bottom:8px;color:var(--text)}
+.ph-role{font-size:1rem;font-weight:600;margin-bottom:22px;padding:6px 16px;border-radius:100px;display:inline-block}
+.role-bl{color:var(--primary);background:var(--primary-light)}
+.role-pu{color:var(--purple);background:var(--purple-light)}
+.ph-bio{font-size:1.05rem;color:var(--text-muted);line-height:1.78;margin-bottom:32px;max-width:520px}
+.ph-contacts{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.ph-cl{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text-muted);text-decoration:none;transition:color .2s}
+.ph-cl .material-symbols-outlined{font-size:18px}
+.ph-cl:hover{color:var(--primary)}
+.ph-cl.pu:hover{color:var(--purple)}
+.ph-actions{display:flex;gap:12px;flex-wrap:wrap}
+
+/* PORTFOLIO */
+.portfolio{padding:80px 28px;background:var(--bg-subtle)}
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+.port-grid-2{grid-template-columns:repeat(2,1fr);max-width:780px;margin-left:auto;margin-right:auto}
+.port-card{background:#fff;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border);transition:all .3s ease}
+.port-card:hover{transform:translateY(-6px);box-shadow:var(--sh-lg)}
+.port-img{aspect-ratio:16/10;overflow:hidden}
+.port-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.port-card:hover .port-img img{transform:scale(1.05)}
+.port-body{padding:22px}
+.port-tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:block}
+.pt-bl{color:var(--primary)}.pt-pu{color:var(--purple)}
+.port-body h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:7px}
+.port-body p{font-size:.85rem;color:var(--text-muted);line-height:1.68}
+
+/* CONTACT */
+.ct{padding:80px 28px;position:relative;overflow:hidden}
+.ct-bl{background:linear-gradient(135deg,#0a1628,var(--text),#0d2855)}
+.ct-pu{background:linear-gradient(135deg,#1a0a2e,#2d1b69,#0f0620)}
+.ct-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:44px 44px;pointer-events:none}
+.ct-blob{position:absolute;width:400px;height:400px;border-radius:50%;pointer-events:none}
+.ct-blob.tl{top:-100px;right:-80px}
+.ct-blob.br{bottom:-80px;left:-60px;opacity:.45}
+.blob-bl{background:radial-gradient(circle,rgba(19,91,236,.28) 0%,transparent 70%)}
+.blob-pu{background:radial-gradient(circle,rgba(124,58,237,.28) 0%,transparent 70%)}
+.ct-inner{max-width:var(--mw);margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:start;position:relative}
+.ct-copy h2{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.2vw,2.5rem);font-weight:800;color:#fff;margin-bottom:16px;letter-spacing:-.025em;line-height:1.18}
+.ct-copy p{font-size:1rem;color:rgba(255,255,255,.6);line-height:1.78;margin-bottom:36px}
+.ct-links{display:flex;flex-direction:column;gap:12px}
+.cl{display:flex;align-items:center;gap:12px;padding:12px 18px;border-radius:var(--r-md);text-decoration:none;font-size:.88rem;font-weight:600;transition:all .2s}
+.cl-wa{background:rgba(37,211,102,.12);color:#4ade80;border:1px solid rgba(37,211,102,.18)}
+.cl-wa:hover{background:rgba(37,211,102,.22)}
+.cl-em-bl{background:rgba(19,91,236,.12);color:#93c5fd;border:1px solid rgba(19,91,236,.2)}
+.cl-em-bl:hover{background:rgba(19,91,236,.22)}
+.cl-em-pu{background:rgba(124,58,237,.12);color:#c4b5fd;border:1px solid rgba(124,58,237,.2)}
+.cl-em-pu:hover{background:rgba(124,58,237,.22)}
+.cl-ph{background:rgba(255,255,255,.06);color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.08)}
+.cl-ph:hover{background:rgba(255,255,255,.1);color:#fff}
+
+/* FORM */
+.form-wrap{background:#fff;border-radius:var(--r-xl);padding:38px;box-shadow:0 28px 64px rgba(0,0,0,.32)}
+.form-wrap h3{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:6px}
+.form-wrap>p{font-size:.85rem;color:var(--text-muted);margin-bottom:26px}
+.fg{margin-bottom:16px}
+.fl{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.fi,.fta{width:100%;padding:11px 14px;border:1.5px solid #e2e8f0;border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);background:#fff;transition:border-color .2s,box-shadow .2s;outline:none}
+.fi.f-bl:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(19,91,236,.1)}
+.fi.f-pu:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.fta{resize:none}
+.fta.f-bl:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(19,91,236,.1)}
+.fta.f-pu:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fe{border-color:#ef4444!important}
+.em{display:none;font-size:.74rem;color:#ef4444;margin-top:4px}
+.em.show{display:block}
+.btn-sub{width:100%;padding:14px;font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;border:none;border-radius:var(--r-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .25s ease;margin-top:8px;color:#fff;letter-spacing:.01em}
+.bs-bl{background:var(--primary)}.bs-bl:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:var(--sh-p)}
+.bs-pu{background:var(--purple)}.bs-pu:hover{background:var(--purple-dark);transform:translateY(-2px);box-shadow:var(--sh-pu)}
+.form-ok{display:none;text-align:center;padding:32px 20px}
+.form-ok.show{display:block}
+.ok-icon{width:66px;height:66px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:#16a34a;font-size:32px}
+.form-ok h3{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:8px}
+.form-ok p{font-size:.9rem;color:var(--text-muted)}
+
+/* FOOTER */
+.footer{background:var(--text);color:#fff;padding:64px 28px 36px}
+.foot-inner{max-width:var(--mw);margin:0 auto}
+.foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:52px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.09);margin-bottom:28px}
+.foot-brand p{font-size:.875rem;color:rgba(255,255,255,.45);line-height:1.75;margin-top:14px;max-width:290px}
+.foot-col h4{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;color:rgba(255,255,255,.88);margin-bottom:16px;letter-spacing:.02em}
+.m-name{font-size:.88rem;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:10px}
+.fl-link{display:flex;align-items:center;gap:9px;padding:9px 14px;border-radius:var(--r-sm);text-decoration:none;font-size:.82rem;font-weight:600;transition:all .2s;margin-bottom:7px}
+.fl-wa{background:rgba(19,91,236,.18);color:#7eb3ff;border:1px solid rgba(19,91,236,.32)}
+.fl-wa:hover{background:rgba(19,91,236,.3);color:#fff;border-color:rgba(19,91,236,.5)}
+.fl-em{background:rgba(19,91,236,.12);color:#7eb3ff;border:1px solid rgba(19,91,236,.22)}
+.fl-em:hover{background:rgba(19,91,236,.25);color:#fff;border-color:rgba(19,91,236,.4)}
+.fl-ph{background:rgba(255,255,255,.06);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.1)}
+.fl-ph:hover{background:rgba(19,91,236,.18);color:#7eb3ff;border-color:rgba(19,91,236,.3)}
+.foot-member{margin-bottom:22px}
+.foot-bottom{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.foot-bottom p{font-size:.8rem;color:rgba(255,255,255,.32)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner,.ph-inner,.ct-inner{grid-template-columns:1fr;gap:40px}
+  .hero-visual{order:-1}
+  .ph-img{max-height:280px}
+  .val-grid,.svc-grid,.team-grid,.port-grid{grid-template-columns:1fr}
+  .foot-top{grid-template-columns:1fr;gap:36px}
+  .nav-links{display:none}
+  .hero-title{font-size:clamp(2rem,6vw,3.2rem)}
+  .sec-title{font-size:clamp(1.6rem,5vw,2.4rem)}
+}
+@media(max-width:600px){
+  section{padding:60px 16px}
+  .hero{padding:48px 16px 64px}
+  .form-row{grid-template-columns:1fr}
+  .hero-actions,.ph-actions{flex-direction:column;align-items:stretch}
+  .hero-actions .btn,.ph-actions .btn{justify-content:center}
+  .hero-title{font-size:clamp(1.8rem,8vw,2.6rem);line-height:1.15}
+  .hero-tagline{font-size:clamp(1rem,4vw,1.3rem)}
+  .hero-sub{font-size:clamp(.9rem,3.5vw,1.05rem)}
+  .hero-img-wrap{aspect-ratio:4/3;max-height:280px}
+  .navbar{padding:0 16px;height:68px}
+  .logo-tag{display:none}
+  .mobile-tagline{display:block}
+  .raz-proj-card{grid-template-columns:1fr!important;grid-template-rows:auto auto}
+  .raz-proj-img{width:100%!important;height:auto!important;min-height:unset!important;max-height:unset!important;overflow:hidden!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:24px 16px!important;box-sizing:border-box!important}
+  .raz-proj-img img{width:80%!important;height:auto!important;max-width:280px!important;object-fit:contain!important;border-radius:16px!important;display:block!important}
+  .raz-proj-card>div:last-child{padding:20px 18px!important}
+  .raz-proj-card .grid-2col{grid-template-columns:1fr!important}
+  .raz-proj-card h3{font-size:1.05rem!important}
+  .logo-name{font-size:1.1rem}
+  .logo-icon{width:38px;height:38px;font-size:18px}
+  .btn.btn-lg{padding:13px 20px;font-size:.9rem}
+  .btn.btn-sm{padding:8px 14px;font-size:.82rem}
+  .val-card,.svc-card,.team-card{border-radius:var(--r-lg)}
+  .team-grid{grid-template-columns:1fr}
+  .ph-hero-inner{flex-direction:column;text-align:center}
+  .ph-hero-img{width:120px;height:120px}
+  .ph-contact-grid{grid-template-columns:1fr}
+  .foot-links{columns:1}
+  .sec-title{font-size:clamp(1.5rem,6vw,2rem)}
+  .sec-sub{font-size:.92rem}
+  .hero-badge{font-size:.78rem;padding:7px 14px}
+  .profile-back{font-size:.85rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="#hero" class="logo">
+      <div class="logo-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">rocket_launch</span></div>
+      <div class="logo-texts">
+        <span class="logo-name">GrowthPilot</span>
+        <span class="logo-tag">הגיע הזמן להטיס את העסק שלכם קדימה</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#value-props">יתרונות</a></li>
+      <li><a href="#services">שירותים</a></li>
+      <li><a href="#team">מי אנחנו</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#team" class="btn btn-p btn-sm">קבעו שיחה</a>
+    </div>
+  </div>
+</header>
+<div class="mobile-tagline">✦ הגיע הזמן להטיס את העסק שלכם קדימה ✦</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-blob1"></div>
+  <div class="hero-blob2"></div>
+  <div class="hero-blob3"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge au d1"><span class="material-symbols-outlined" style="font-size:14px">auto_awesome</span>סוכנות AI לעסקים</div>
+      <h1 class="hero-title au d2">אתם תתמקדו<br/>במה שאתם<br/>הכי טובים בו</h1>
+      <p class="hero-tagline au d3">אנחנו נדאג לטכנולוגיה</p>
+      <p class="hero-sub au d4">אוטומציה, דשבורדים וסוכני AI<br/>שמניעים צמיחה אמיתית לעסק שלכם.</p>
+      <div class="hero-actions au d5">
+        <a href="#team" class="btn btn-p btn-lg">קבעו שיחת היכרות <span class="material-symbols-outlined" style="transform:scaleX(-1)">arrow_forward</span></a>
+        <a href="#services" class="btn btn-sec btn-lg">השירותים שלנו</a>
+      </div>
+    </div>
+    <div class="hero-visual au d3">
+      <div class="hero-img-wrap">
+        <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80&auto=format&fit=crop" alt="AI"/>
+      </div>
+      <div class="fc fc1">
+        <div class="fc-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">trending_up</span></div>
+        <div><div class="fc-label">צמיחה חודשית</div><div class="fc-value">+60%</div></div>
+      </div>
+      <div class="fc fc2">
+        <div class="fc-icon" style="background:#f0fdf4;color:#16a34a"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">schedule</span></div>
+        <div><div class="fc-label">שעות שנחסכו</div><div class="fc-value">20+ / שבוע</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE PROPS -->
+<section id="value-props" class="subtle">
+  <div class="container">
+    <span class="sec-label"><span class="material-symbols-outlined" style="font-size:13px">stars</span>למה GrowthPilot?</span>
+    <h2 class="sec-title">היתרונות שתקבלו</h2>
+    <p class="sec-sub">פתרונות AI מותאמים אישית שמשנים את הדרך שבה העסק שלכם פועל.</p>
+    <div class="val-grid">
+      <div class="val-card">
+        <div class="val-img">
+          <img src="https://images.unsplash.com/photo-1488229297570-58520851e868?w=800&q=80&auto=format&fit=crop" alt="חיסכון בזמן" loading="lazy"/>
+          <div class="val-img-overlay"></div>
+        </div>
+        <div class="val-body">
+          <div class="v-icon ic-bl"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">schedule</span></div>
+          <h3>חוסכים שעות עבודה</h3>
+          <p>מערכות אוטומציה חכמות שמבצעות משימות חוזרות — כך שתוכלו להתמקד בצמיחה.</p>
+        </div>
+      </div>
+      <div class="val-card">
+        <div class="val-img">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80&auto=format&fit=crop" alt="נתונים ואנליטיקה" loading="lazy"/>
+          <div class="val-img-overlay"></div>
+        </div>
+        <div class="val-body">
+          <div class="v-icon ic-pu"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">insights</span></div>
+          <h3>החלטות מבוססות נתונים</h3>
+          <p>דשבורדים חיים וניתוחי AI שהופכים מידע גולמי לתובנות שניתן לפעול לפיהן.</p>
+        </div>
+      </div>
+      <div class="val-card">
+        <div class="val-img">
+          <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=800&q=80&auto=format&fit=crop" alt="צמיחה עסקית" loading="lazy"/>
+          <div class="val-img-overlay"></div>
+        </div>
+        <div class="val-body">
+          <div class="v-icon ic-tl"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">trending_up</span></div>
+          <h3>צמיחה ורווחיות</h3>
+          <p>פתרונות AI שמגדילים הכנסות, מקטינים עלויות ומאיצים את הצמיחה של העסק.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <span class="sec-label"><span class="material-symbols-outlined" style="font-size:13px">grid_view</span>השירותים שלנו</span>
+    <h2 class="sec-title">מה אנחנו בונים עבורכם</h2>
+    <p class="sec-sub">פתרונות טכנולוגיים מתקדמים שמותאמים לצרכים הייחודיים של העסק שלכם.</p>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="svc-img">
+          <img src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?w=800&q=80&auto=format&fit=crop" alt="אוטומציות" loading="lazy"/>
+          <div class="svc-overlay"></div>
+        </div>
+        <div class="svc-body">
+          <div class="svc-tag"><span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1">smart_toy</span>אוטומציות</div>
+          <h3>אוטומציית תהליכים</h3>
+          <p>מערכות RPA ו-AI שמבצעות משימות חוזרות, מקטינות טעויות ומשחררות את הצוות שלכם.</p>
+        </div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-img">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop" alt="דשבורדים" loading="lazy"/>
+          <div class="svc-overlay"></div>
+        </div>
+        <div class="svc-body">
+          <div class="svc-tag"><span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1">dashboard</span>דשבורדים</div>
+          <h3>BI ואנליטיקה עסקית</h3>
+          <p>דשבורדים חיים עם KPI's בזמן אמת — תמיד תדעו בדיוק היכן העסק שלכם עומד.</p>
+        </div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-img">
+          <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80&auto=format&fit=crop" alt="סוכני AI" loading="lazy"/>
+          <div class="svc-overlay"></div>
+        </div>
+        <div class="svc-body">
+          <div class="svc-tag"><span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1">psychology</span>סוכני AI</div>
+          <h3>סוכני AI ואפליקציות חכמות</h3>
+          <p>פיתוח סוכני AI מותאמים ואפליקציות עסקיות שמניעים יתרון תחרותי משמעותי.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="subtle">
+  <div class="container">
+    <span class="sec-label"><span class="material-symbols-outlined" style="font-size:13px">groups</span>מי אנחנו</span>
+    <h2 class="sec-title">הצוות שמאחורי GrowthPilot</h2>
+    <p class="sec-sub">שני מומחים עם ניסיון עשיר בבניית פתרונות AI שמניעים תוצאות אמיתיות.</p>
+    <div class="team-grid">
+      <!-- מרים -->
+      <div class="team-card tc-blue">
+        <div class="tc-bar bar-bl"></div>
+        <div class="tc-top">
+          <div class="tc-avatar av-bl">מ.ט</div>
+          <div><div class="tc-name">מרים טבול</div><div class="tc-role">מומחית AI ואוטומציות</div></div>
+        </div>
+        <p class="tc-bio">מומחית לאוטומציות ופתרונות AI לעסקים. מסייעת לבעלי עסקים לחסוך זמן, לשפר תהליכים ולצמוח עם פתרונות טכנולוגיים חכמים.</p>
+        <div class="tc-skills">
+          <span class="sk sk-bl">אוטומציות</span><span class="sk sk-bl">AI Strategy</span><span class="sk sk-bl">דשבורדים</span><span class="sk sk-bl">צמיחה עסקית</span>
+        </div>
+        <button class="btn btn-p" onclick="showProfile('miriam')">צפו בפרופיל <span class="material-symbols-outlined" style="transform:scaleX(-1)">arrow_forward</span></button>
+      </div>
+      <!-- רז -->
+      <div class="team-card tc-purple">
+        <div class="tc-bar bar-pu"></div>
+        <div class="tc-top">
+          <div class="tc-avatar av-pu">ר.ש</div>
+          <div><div class="tc-name">רז שמריה</div><div class="tc-role">מומחה מערכות AI ופיתוח</div></div>
+        </div>
+        <p class="tc-bio">מומחה בבניית מערכות AI מתקדמות ופיתוח אפליקציות חכמות. מתמחה בהטמעת פתרונות טכנולוגיים שמניעים צמיחה עסקית אמיתית.</p>
+        <div class="tc-skills">
+          <span class="sk sk-pu">מערכות AI</span><span class="sk sk-pu">פיתוח אפליקציות</span><span class="sk sk-pu">LLMs</span><span class="sk sk-pu">אינטגרציות</span>
+        </div>
+        <button class="btn btn-pu" onclick="showProfile('raz')">צפו בפרופיל <span class="material-symbols-outlined" style="transform:scaleX(-1)">arrow_forward</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MIRIAM PROFILE ═══ -->
+<div id="miriam-profile" class="profile-sec">
+  <div class="back-bar">
+    <div class="container">
+      <button class="back-btn bl" onclick="hideProfile()"><span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>חזרה</button>
+      <span class="breadcrumb">GrowthPilot › <span>מרים טבול</span></span>
+    </div>
+  </div>
+  <!-- Profile Hero -->
+  <div class="ph ph-bl">
+    <div class="ph-inner">
+      <div class="ph-content-wrap">
+        <div>
+          <span class="sec-label" style="margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:13px">person</span>מי אני</span>
+          <h1 class="ph-name">מרים טבול</h1>
+          <span class="ph-role role-bl">מומחית AI ואוטומציות</span>
+          <p class="ph-bio">מומחית לאוטומציות ופתרונות AI לעסקים עם ניסיון עשיר בהובלת טרנספורמציה דיגיטלית. מסייעת לבעלי עסקים לחסוך שעות עבודה יקרות, לשפר תהליכים מקצה לקצה ולצמוח בצורה חכמה ומדידה.</p>
+          <div class="ph-actions">
+            <a href="#miriam-ct" class="btn btn-p btn-lg">קבעו שיחה <span class="material-symbols-outlined" style="transform:scaleX(-1)">arrow_forward</span></a>
+            <a href="https://wa.me/972526469288" class="btn btn-sec btn-lg" target="_blank">WhatsApp</a>
+          </div>
+        </div>
+        <div style="border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3;box-shadow:0 20px 60px rgba(19,91,236,.18)">
+          <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=900&q=80&auto=format&fit=crop" alt="אוטומציות ו-AI" style="width:100%;height:100%;object-fit:cover;display:block"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Portfolio -->
+  <div class="portfolio">
+    <div class="container">
+      <span class="sec-label"><span class="material-symbols-outlined" style="font-size:13px">work</span>דוגמאות עבודות</span>
+      <h2 class="sec-title">פרויקטים נבחרים</h2>
+      <p class="sec-sub">כמה מהפרויקטים שעזרתי לממש — מאוטומציות ועד מערכות AI מלאות.</p>
+      <div class="port-grid">
+        <div class="port-card">
+          <div class="port-img"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&q=80&auto=format&fit=crop" alt="אוטומציית מכירות" loading="lazy"/></div>
+          <div class="port-body"><span class="port-tag pt-bl">אוטומציה</span><h3>אוטומציית תהליך המכירות</h3><p>בניית מערכת אוטומציה שחסכה 20+ שעות שבועיות לצוות מכירות — מ-lead עד חוזה חתום.</p></div>
+        </div>
+        <div class="port-card">
+          <div class="port-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop" alt="דשבורד BI" loading="lazy"/></div>
+          <div class="port-body"><span class="port-tag pt-bl">דשבורד</span><h3>דשבורד BI בזמן אמת</h3><p>מערכת אנליטיקה עסקית שמציגה KPIs קריטיים ומאפשרת קבלת החלטות מהירה ומדויקת.</p></div>
+        </div>
+        <div class="port-card">
+          <div class="port-img"><img src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80&auto=format&fit=crop" alt="סוכן AI" loading="lazy"/></div>
+          <div class="port-body"><span class="port-tag pt-bl">סוכן AI</span><h3>סוכן AI לשירות לקוחות</h3><p>פיתוח סוכן AI שמטפל ב-70% מהפניות ללא התערבות אנושית — 24/7 ובעברית מושלמת.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Services Strip -->
+  <div style="background:#f8faff;padding:56px 28px 64px">
+    <div class="container" style="max-width:900px">
+      <div style="text-align:center;margin-bottom:40px">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:var(--primary-light);border:1.5px solid rgba(19,91,236,.15);border-radius:100px;padding:6px 18px;margin-bottom:16px">
+          <span class="material-symbols-outlined" style="font-size:14px;color:var(--primary);font-variation-settings:'FILL' 1">build</span>
+          <span style="font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;color:var(--primary);letter-spacing:.08em;text-transform:uppercase">השירותים שלי</span>
+        </div>
+        <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1.1">מה אני בונה</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+
+        <!-- דף נחיתה -->
+        <div class="svc-card-m" style="background:#fff;border:1.5px solid rgba(19,91,236,.12);border-radius:var(--r-xl);padding:32px 28px;display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 48px rgba(19,91,236,.14)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="position:absolute;top:-40px;left:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(19,91,236,.08),transparent 70%);pointer-events:none"></div>
+          <div style="width:52px;height:52px;background:linear-gradient(135deg,var(--primary),#4f7cf7);border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(19,91,236,.3)">
+            <span class="material-symbols-outlined" style="font-size:24px;color:#fff;font-variation-settings:'FILL' 1">web</span>
+          </div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);margin-bottom:8px;line-height:1.2">דפי נחיתה חכמים<br/>לעסקים</div>
+            <div style="font-size:.83rem;color:var(--text-muted);line-height:1.7">עיצוב מותאם מובייל · לידים לגוגל שיטס · דשבורד נתונים · אוטומציות</div>
+          </div>
+          <a href="#miriam-ct" style="display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:.85rem;font-weight:700;text-decoration:none;margin-top:auto">
+            אני רוצה כזה <span class="material-symbols-outlined" style="font-size:16px;transform:scaleX(-1)">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- בוט וואטסאפ -->
+        <div class="svc-card-m" style="background:#fff;border:1.5px solid rgba(22,163,74,.15);border-radius:var(--r-xl);padding:32px 28px;display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 48px rgba(22,163,74,.13)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="position:absolute;top:-40px;left:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(22,163,74,.07),transparent 70%);pointer-events:none"></div>
+          <div style="width:52px;height:52px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(22,163,74,.3)">
+            <span class="material-symbols-outlined" style="font-size:24px;color:#fff;font-variation-settings:'FILL' 1">chat</span>
+          </div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);margin-bottom:8px;line-height:1.2">בוט וואטסאפ חכם<br/>לעסקים</div>
+            <div style="font-size:.83rem;color:var(--text-muted);line-height:1.7">עונה 24/7 · אוסף פרטים · שיחות שמורות בטבלה · תחזוקה שוטפת</div>
+          </div>
+          <a href="#miriam-ct" style="display:inline-flex;align-items:center;gap:6px;color:#16a34a;font-size:.85rem;font-weight:700;text-decoration:none;margin-top:auto">
+            אני רוצה כזה <span class="material-symbols-outlined" style="font-size:16px;transform:scaleX(-1)">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- אפליקציות -->
+        <div class="svc-card-m" style="background:#fff;border:1.5px solid rgba(124,58,237,.12);border-radius:var(--r-xl);padding:32px 28px;display:flex;flex-direction:column;gap:20px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 48px rgba(124,58,237,.13)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+          <div style="position:absolute;top:-40px;left:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(124,58,237,.07),transparent 70%);pointer-events:none"></div>
+          <div style="width:52px;height:52px;background:linear-gradient(135deg,var(--purple),#a855f7);border-radius:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(124,58,237,.3)">
+            <span class="material-symbols-outlined" style="font-size:24px;color:#fff;font-variation-settings:'FILL' 1">app_shortcut</span>
+          </div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);margin-bottom:8px;line-height:1.2">אפליקציות עסקיות<br/>לפי דרישה</div>
+            <div style="font-size:.83rem;color:var(--text-muted);line-height:1.7">פיתוח מותאם לצרכים שלכם · ממשק נוח · גמישה ומתפתחת עם העסק</div>
+          </div>
+          <a href="#miriam-ct" style="display:inline-flex;align-items:center;gap:6px;color:var(--purple);font-size:.85rem;font-weight:700;text-decoration:none;margin-top:auto">
+            אני רוצה כזה <span class="material-symbols-outlined" style="font-size:16px;transform:scaleX(-1)">arrow_forward</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="ct ct-bl" id="miriam-ct">
+    <div class="ct-grid"></div>
+    <div class="ct-blob tl blob-bl"></div>
+    <div class="ct-blob br blob-bl"></div>
+    <div class="ct-inner">
+      <div class="ct-copy">
+        <h2>בואו נדבר על העסק שלכם</h2>
+        <p>רוצים לדעת כיצד אוטומציה ו-AI יכולים לשנות את העסק שלכם? השאירו פרטים ואחזור אליכם בהקדם.</p>
+        <div class="ct-links">
+          <a href="https://wa.me/972526469288" class="cl cl-wa" target="_blank"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">chat</span>WhatsApp — 052-646-9288</a>
+          <a href="mailto:mariatar@gmail.com" class="cl cl-em-bl"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">mail</span>mariatar@gmail.com</a>
+          <a href="tel:0526469288" class="cl cl-ph"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">phone</span>052-646-9288</a>
+        </div>
+      </div>
+      <div class="form-wrap">
+        <div id="m-form-wrap">
+          <h3>קבעו שיחת היכרות</h3>
+          <p>מלאו את הפרטים ואחזור אליכם בהקדם</p>
+          <form id="m-form" name="miriam-leads" netlify data-netlify="true" novalidate>
+            <input type="hidden" name="form-name" value="miriam-leads"/>
+            <div class="form-row">
+              <div class="fg"><label class="fl" for="m-name">שם מלא *</label><input class="fi f-bl" type="text" id="m-name" name="name" placeholder="ישראל ישראלי"/><span class="em" id="m-name-e">נא להזין שם מלא</span></div>
+              <div class="fg"><label class="fl" for="m-phone">טלפון *</label><input class="fi f-bl" type="tel" id="m-phone" name="phone" placeholder="050-0000000" dir="ltr"/><span class="em" id="m-phone-e">מספר טלפון לא תקין</span></div>
+            </div>
+            <div class="form-row">
+              <div class="fg"><label class="fl" for="m-email">אימייל</label><input class="fi f-bl" type="email" id="m-email" name="email" placeholder="your@email.com" dir="ltr"/><span class="em" id="m-email-e">אימייל לא תקין</span></div>
+              <div class="fg"><label class="fl" for="m-biz">שם העסק *</label><input class="fi f-bl" type="text" id="m-biz" name="business" placeholder="שם החברה"/><span class="em" id="m-biz-e">נא להזין שם עסק</span></div>
+            </div>
+            <div class="fg"><label class="fl" for="m-msg">במה אוכל לעזור?</label><textarea class="fi fta f-bl" id="m-msg" name="message" rows="3" placeholder="ספרו לי על האתגר..."></textarea></div>
+            <button type="submit" class="btn-sub bs-bl">שלחו פנייה <span class="material-symbols-outlined" style="font-size:18px">send</span></button>
+          </form>
+        </div>
+        <div class="form-ok" id="m-ok"><div class="ok-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">check_circle</span></div><h3>תודה רבה!</h3><p>קיבלתי את הפנייה שלכם ואחזור אליכם בהקדם.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RAZ PROFILE ═══ -->
+<div id="raz-profile" class="profile-sec">
+  <div class="back-bar" style="background:linear-gradient(90deg,#faf8ff,#fff)">
+    <div class="container">
+      <button class="back-btn pu" onclick="hideProfile()"><span class="material-symbols-outlined" style="font-size:16px">arrow_forward</span>חזרה</button>
+      <span class="breadcrumb">GrowthPilot › <span>רז שמריה</span></span>
+    </div>
+  </div>
+  <!-- Profile Hero -->
+  <div class="ph ph-pu">
+    <div class="ph-inner">
+      <div class="ph-content-wrap">
+        <div>
+          <span class="sec-label pu" style="margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:13px">person</span>מי אני</span>
+          <h1 class="ph-name">רז שמריה</h1>
+          <span class="ph-role role-pu">מומחה מערכות AI ופיתוח</span>
+          <p class="ph-bio">מומחה בבניית מערכות AI מתקדמות ופיתוח אפליקציות חכמות. מתמחה בהטמעת פתרונות טכנולוגיים שמניעים צמיחה אמיתית — מסוכני AI ועד אפליקציות עסקיות מורכבות שפועלות בצורה חלקה ומדרגית.</p>
+          <div class="ph-actions">
+            <a href="#raz-ct" class="btn btn-pu btn-lg">קבעו שיחה <span class="material-symbols-outlined" style="transform:scaleX(-1)">arrow_forward</span></a>
+            <a href="https://wa.me/972546522650" class="btn btn-pu-out btn-lg" target="_blank">WhatsApp</a>
+          </div>
+        </div>
+        <div style="border-radius:var(--r-xl);overflow:hidden;aspect-ratio:4/3;box-shadow:0 20px 60px rgba(124,58,237,.18)">
+          <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=900&q=80&auto=format&fit=crop" alt="פיתוח אפליקציות" style="width:100%;height:100%;object-fit:cover;display:block"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Portfolio -->
+  <div class="portfolio" style="background:linear-gradient(135deg,#faf8ff,#f0ebfe 60%,var(--bg-subtle))">
+    <div class="container">
+      <span class="sec-label pu"><span class="material-symbols-outlined" style="font-size:13px">work</span>דוגמאות עבודות</span>
+      <h2 class="sec-title">פרויקטים נבחרים</h2>
+      <p class="sec-sub">פרויקטים טכנולוגיים שבניתי — ממערכות AI מורכבות ועד אפליקציות עסקיות.</p>
+      <div style="display:flex;flex-direction:column;gap:28px;margin-top:48px">
+
+        <!-- פרויקט 1: DriveSchool -->
+        <div class="raz-proj-card" style="background:#fff;border:1.5px solid rgba(124,58,237,.1);border-radius:var(--r-xl);overflow:hidden;display:grid;grid-template-columns:280px 1fr;box-shadow:var(--sh-md);transition:box-shadow .25s" onmouseover="this.style.boxShadow='0 12px 40px rgba(124,58,237,.14)'" onmouseout="this.style.boxShadow='var(--sh-md)'">
+          <div class="raz-proj-img" style="background:linear-gradient(160deg,#f0ebfe,#e8f0fe);display:flex;align-items:center;justify-content:center;padding:20px;min-height:320px;overflow:hidden">
+            <img src="raz/driveschool-app.jpeg" alt="DriveSchool" loading="lazy" style="width:55%;height:auto;object-fit:contain;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.18)"/>
+          </div>
+          <div style="padding:36px 32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="port-tag pt-pu" style="margin:0">אפליקציה</span>
+              <span style="font-size:.75rem;color:var(--text-light)">Mobile · Web · Dashboard</span>
+            </div>
+            <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--text);line-height:1.2;margin:0">מערכת חכמה לניהול שיעורי נהיגה</h3>
+            <p style="font-size:.88rem;color:var(--text-muted);line-height:1.7;margin:0">מערכת דיגיטלית לניהול מלא של בית הספר לנהיגה:</p>
+            <div class="grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div style="background:#faf8ff;border-radius:var(--r-sm);padding:10px 12px;font-size:.78rem;color:var(--text-muted);line-height:1.6"><strong style="color:var(--purple);display:block;margin-bottom:2px">למורה</strong>יומן שיעורים מקוון · ניהול תלמידים ורכבים · דוחות פיננסיים · חישוב מרחקים אוטומטי</div>
+              <div style="background:#faf8ff;border-radius:var(--r-sm);padding:10px 12px;font-size:.78rem;color:var(--text-muted);line-height:1.6"><strong style="color:var(--purple);display:block;margin-bottom:2px">לתלמיד</strong>קביעת שיעורים עצמאית · מעקב שעות ויתרה · סיכומי שיעורים AI · התראות ותזכורות</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:.8rem;color:var(--text-muted)">✅ אישור שיעורים אוטומטי/ידני</div>
+              <div style="font-size:.8rem;color:var(--text-muted)">✅ חישוב מרחקים חכם (Google Maps)</div>
+              <div style="font-size:.8rem;color:var(--text-muted)">✅ סגירת יומן יומית (למס הכנסה) · ניהול מספר רכבים · SMS אוטומטיים</div>
+              <div style="font-size:.8rem;color:var(--text-muted)">✅ ממשק נוח לטלפון, טאבלט ומחשב</div>
+            </div>
+            <div style="font-size:.82rem;font-weight:600;color:var(--purple)">מערכת מודרנית, בטוחה וקלה בשימוש</div>
+          </div>
+        </div>
+
+        <!-- פרויקט 2: QAQC -->
+        <div class="raz-proj-card" style="background:#fff;border:1.5px solid rgba(124,58,237,.1);border-radius:var(--r-xl);overflow:hidden;display:grid;grid-template-columns:280px 1fr;box-shadow:var(--sh-md);transition:box-shadow .25s" onmouseover="this.style.boxShadow='0 12px 40px rgba(124,58,237,.14)'" onmouseout="this.style.boxShadow='var(--sh-md)'">
+          <div class="raz-proj-img" style="overflow:hidden;min-height:320px">
+            <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80&auto=format&fit=crop" alt="מערכת QAQC" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"/>
+          </div>
+          <div style="padding:36px 32px;display:flex;flex-direction:column;justify-content:center;gap:16px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <span class="port-tag pt-pu" style="margin:0">מערכת ניהול</span>
+              <span style="font-size:.75rem;color:var(--text-light)">Commissioning · QA/QC</span>
+            </div>
+            <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--text);line-height:1.2;margin:0">שליטה ובקרה בתהליכי מסירה ובדיקות ציוד</h3>
+            <p style="font-size:.88rem;color:var(--text-muted);line-height:1.7;margin:0">מערכת מקצועית לניהול תהליכי Commissioning ו-QA/QC בפרויקטים מורכבים. מעקב שקוף מהתכנון ועד הפעלה סופית.</p>
+            <div class="grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div style="background:#faf8ff;border-radius:var(--r-sm);padding:10px 12px;font-size:.78rem;color:var(--text-muted);line-height:1.5"><strong style="color:var(--purple);display:block;margin-bottom:2px">היררכיה</strong>פרויקט ← בניינים ← ציוד ← בדיקות</div>
+              <div style="background:#faf8ff;border-radius:var(--r-sm);padding:10px 12px;font-size:.78rem;color:var(--text-muted);line-height:1.5"><strong style="color:var(--purple);display:block;margin-bottom:2px">6 שלבי מסירה</strong>L1–L6 · Pass/Fail/N/A · היסטוריה</div>
+              <div style="background:#faf8ff;border-radius:var(--r-sm);padding:10px 12px;font-size:.78rem;color:var(--text-muted);line-height:1.5"><strong style="color:var(--purple);display:block;margin-bottom:2px">הרשאות</strong>Admin · Owner · Inspector · Contractor</div>
+              <div style="background:#faf8ff;border-radius:var(--r-sm);padding:10px 12px;font-size:.78rem;color:var(--text-muted);line-height:1.5"><strong style="color:var(--purple);display:block;margin-bottom:2px">דוחות</strong>דשבורד · PDF · המלצות AI · Audit Trail</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Recommendation Letter -->
+  <div style="background:#fff;padding:72px 28px">
+    <div class="container" style="max-width:780px">
+      <span class="sec-label pu" style="margin-bottom:16px"><span class="material-symbols-outlined" style="font-size:13px">verified</span>המלצה</span>
+      <h2 class="sec-title" style="margin-bottom:40px">מה אומרים עליי הלקוחות</h2>
+      <div style="background:linear-gradient(135deg,#faf8ff,#f3effe);border:1.5px solid rgba(124,58,237,.15);border-radius:var(--r-xl);padding:40px 44px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:-30px;right:-20px;width:140px;height:140px;background:radial-gradient(circle,rgba(124,58,237,.08),transparent 70%);pointer-events:none"></div>
+        <span style="font-family:'Syne',sans-serif;font-size:5rem;line-height:1;color:rgba(124,58,237,.15);position:absolute;top:16px;right:36px;font-weight:800">"</span>
+        <!-- Header -->
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;flex-wrap:wrap">
+          <div style="width:52px;height:52px;background:linear-gradient(135deg,var(--purple),#a855f7);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;flex-shrink:0">CX</div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--text)">עדי אביסידריס</div>
+            <div style="font-size:.82rem;color:var(--text-muted)">Cx-Plus — Commissioning & Operation Services Ltd</div>
+          </div>
+          <div style="margin-right:auto;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.18);border-radius:8px;padding:5px 12px;font-size:.75rem;font-weight:700;color:var(--purple);white-space:nowrap">לקוח מאומת ✓</div>
+        </div>
+        <!-- Quote -->
+        <p style="font-size:1.05rem;line-height:1.85;color:var(--text);margin-bottom:20px">
+          הגענו לרז דרך המלצה אישית של קולגה, ומהרגע הראשון היה ברור שמדובר <strong>בשותף לדרך ולא רק בספק שירות</strong>. רז פיתח עבורנו מערכת ייעודית המותאמת בדיוק לצרכים שלנו.
+        </p>
+        <!-- Highlights -->
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px">
+          <div style="background:#fff;border-radius:var(--r-md);padding:14px 16px;border:1px solid rgba(124,58,237,.1);display:flex;gap:10px;align-items:flex-start">
+            <span class="material-symbols-outlined" style="font-size:18px;color:var(--purple);margin-top:2px;font-variation-settings:'FILL' 1">group</span>
+            <span style="font-size:.85rem;color:var(--text);line-height:1.5">זכייה בלקוח אסטרטגי חדש בזכות הנראות הטכנולוגית המתקדמת</span>
+          </div>
+          <div style="background:#fff;border-radius:var(--r-md);padding:14px 16px;border:1px solid rgba(124,58,237,.1);display:flex;gap:10px;align-items:flex-start">
+            <span class="material-symbols-outlined" style="font-size:18px;color:var(--purple);margin-top:2px;font-variation-settings:'FILL' 1">rocket_launch</span>
+            <span style="font-size:.85rem;color:var(--text);line-height:1.5">ייעול עסקי וניהול חכם — דשבורד ניהולי שחוסך זמן יקר</span>
+          </div>
+          <div style="background:#fff;border-radius:var(--r-md);padding:14px 16px;border:1px solid rgba(124,58,237,.1);display:flex;gap:10px;align-items:flex-start">
+            <span class="material-symbols-outlined" style="font-size:18px;color:var(--purple);margin-top:2px;font-variation-settings:'FILL' 1">handshake</span>
+            <span style="font-size:.85rem;color:var(--text);line-height:1.5">ליווי צמוד וזמינות מלאה גם לאחר סיום הפיתוח</span>
+          </div>
+        </div>
+        <p style="font-size:.95rem;font-weight:600;color:var(--purple);line-height:1.7">
+          "אנו ממליצים בחום על רז שמריה לכל ארגון המחפש שותף אמין ומקצועי."
+        </p>
+        <!-- PDF Link -->
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(124,58,237,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+          <span style="font-size:.8rem;color:var(--text-muted)">מכתב המלצה מלא — Cx-Plus, אשקלון</span>
+          <a href="raz/raz-recommendation.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:7px;background:rgba(124,58,237,.08);color:var(--purple);border:1px solid rgba(124,58,237,.2);border-radius:var(--r-sm);padding:8px 16px;font-size:.82rem;font-weight:600;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(124,58,237,.16)'" onmouseout="this.style.background='rgba(124,58,237,.08)'">
+            <span class="material-symbols-outlined" style="font-size:16px;font-variation-settings:'FILL' 1">picture_as_pdf</span>
+            לצפייה במכתב המלא
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="ct ct-pu" id="raz-ct">
+    <div class="ct-grid"></div>
+    <div class="ct-blob tl blob-pu"></div>
+    <div class="ct-blob br blob-pu"></div>
+    <div class="ct-inner">
+      <div class="ct-copy">
+        <h2>בואו נבנה משהו מדהים</h2>
+        <p>יש לכם רעיון? צריכים מערכת AI? רוצים אפליקציה עסקית? השאירו פרטים ואחזור אליכם בהקדם האפשרי.</p>
+        <div class="ct-links">
+          <a href="https://wa.me/972546522650" class="cl cl-wa" target="_blank"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">chat</span>WhatsApp — 054-652-2650</a>
+          <a href="tel:0546522650" class="cl cl-ph"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">phone</span>054-652-2650</a>
+        </div>
+      </div>
+      <div class="form-wrap">
+        <div id="r-form-wrap">
+          <h3>קבעו שיחת היכרות</h3>
+          <p>מלאו את הפרטים ואחזור אליכם בהקדם</p>
+          <form id="r-form" name="raz-leads" netlify data-netlify="true" novalidate>
+            <input type="hidden" name="form-name" value="raz-leads"/>
+            <div class="form-row">
+              <div class="fg"><label class="fl" for="r-name">שם מלא *</label><input class="fi f-pu" type="text" id="r-name" name="name" placeholder="ישראל ישראלי"/><span class="em" id="r-name-e">נא להזין שם מלא</span></div>
+              <div class="fg"><label class="fl" for="r-phone">טלפון *</label><input class="fi f-pu" type="tel" id="r-phone" name="phone" placeholder="050-0000000" dir="ltr"/><span class="em" id="r-phone-e">מספר טלפון לא תקין</span></div>
+            </div>
+            <div class="form-row">
+              <div class="fg"><label class="fl" for="r-email">אימייל</label><input class="fi f-pu" type="email" id="r-email" name="email" placeholder="your@email.com" dir="ltr"/><span class="em" id="r-email-e">אימייל לא תקין</span></div>
+              <div class="fg"><label class="fl" for="r-biz">שם העסק *</label><input class="fi f-pu" type="text" id="r-biz" name="business" placeholder="שם החברה"/><span class="em" id="r-biz-e">נא להזין שם עסק</span></div>
+            </div>
+            <div class="fg"><label class="fl" for="r-msg">במה אוכל לעזור?</label><textarea class="fi fta f-pu" id="r-msg" name="message" rows="3" placeholder="ספרו לי על הפרויקט..."></textarea></div>
+            <button type="submit" class="btn-sub bs-pu">שלחו פנייה <span class="material-symbols-outlined" style="font-size:18px">send</span></button>
+          </form>
+        </div>
+        <div class="form-ok" id="r-ok"><div class="ok-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">check_circle</span></div><h3>תודה רבה!</h3><p>קיבלתי את הפנייה שלכם ואחזור אליכם בהקדם.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#hero" class="logo" style="margin-bottom:14px">
+          <div class="logo-icon"><span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1">rocket_launch</span></div>
+          <div class="logo-texts"><span class="logo-name" style="color:#fff">GrowthPilot</span><span class="logo-tag" style="color:rgba(255,255,255,.4)">הגיע הזמן להטיס את העסק שלכם קדימה</span></div>
+        </a>
+        <p>סוכנות AI לעסקים. בונים אוטומציות, דשבורדים, סוכני AI ואפליקציות שמניעות צמיחה אמיתית.</p>
+      </div>
+      <div class="foot-col">
+        <h4>ניווט מהיר</h4>
+        <a href="#value-props" style="display:block;color:rgba(255,255,255,.5);text-decoration:none;font-size:.875rem;margin-bottom:10px;transition:color .2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">יתרונות</a>
+        <a href="#services"    style="display:block;color:rgba(255,255,255,.5);text-decoration:none;font-size:.875rem;margin-bottom:10px;transition:color .2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">שירותים</a>
+        <a href="#team"        style="display:block;color:rgba(255,255,255,.5);text-decoration:none;font-size:.875rem;transition:color .2s" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,.5)'">מי אנחנו</a>
+      </div>
+      <div class="foot-col">
+        <h4>צוות GrowthPilot</h4>
+        <div class="foot-member">
+          <div class="m-name">מרים טבול</div>
+          <a href="https://wa.me/972526469288" class="fl-link fl-wa" target="_blank"><span class="material-symbols-outlined" style="font-size:15px;font-variation-settings:'FILL' 1">chat</span>WhatsApp</a>
+          <a href="mailto:mariatar@gmail.com" class="fl-link fl-em"><span class="material-symbols-outlined" style="font-size:15px;font-variation-settings:'FILL' 1">mail</span>mariatar@gmail.com</a>
+          <a href="tel:0526469288" class="fl-link fl-ph"><span class="material-symbols-outlined" style="font-size:15px">phone</span>052-646-9288</a>
+        </div>
+        <div class="foot-member">
+          <div class="m-name">רז שמריה</div>
+          <a href="https://wa.me/972546522650" class="fl-link fl-wa" target="_blank"><span class="material-symbols-outlined" style="font-size:15px;font-variation-settings:'FILL' 1">chat</span>WhatsApp</a>
+          <a href="tel:0546522650" class="fl-link fl-ph"><span class="material-symbols-outlined" style="font-size:15px">phone</span>054-652-2650</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2025 GrowthPilot. כל הזכויות שמורות.</p>
+      <p>אוטומציה · דשבורדים · AI · אפליקציות</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showProfile(id){
+  document.querySelectorAll('.profile-sec').forEach(e=>e.classList.remove('active'));
+  var t=document.getElementById(id+'-profile');
+  if(t){t.classList.add('active');setTimeout(()=>t.scrollIntoView({behavior:'smooth',block:'start'}),50)}
+}
+function hideProfile(){
+  document.querySelectorAll('.profile-sec').forEach(e=>e.classList.remove('active'));
+  var t=document.getElementById('team');
+  if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function validPhone(v){return/^0[5-9]\d{8}$/.test(v.replace(/[-\s]/g,''))}
+function validEmail(v){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}
+
+function validateForm(p){
+  var n=document.getElementById(p+'-name'),ph=document.getElementById(p+'-phone'),
+      em=document.getElementById(p+'-email'),b=document.getElementById(p+'-biz');
+  var ok=true;
+  [n,ph,em,b].forEach(e=>{if(e){e.classList.remove('fe')}});
+  document.querySelectorAll('[id^="'+p+'-"][id$="-e"]').forEach(e=>e.classList.remove('show'));
+  if(!n.value.trim()||n.value.trim().length<2){n.classList.add('fe');document.getElementById(p+'-name-e').classList.add('show');ok=false}
+  if(!validPhone(ph.value)){ph.classList.add('fe');document.getElementById(p+'-phone-e').classList.add('show');ok=false}
+  if(em&&em.value.trim()&&!validEmail(em.value.trim())){em.classList.add('fe');document.getElementById(p+'-email-e').classList.add('show');ok=false}
+  if(!b.value.trim()||b.value.trim().length<2){b.classList.add('fe');document.getElementById(p+'-biz-e').classList.add('show');ok=false}
+  return ok;
+}
+
+var MIRIAM_SHEET='https://script.google.com/macros/s/AKfycbzzp8GPnA1KineDukpUKpY46mKQgMyE9M17rz4-AR34ZOE3qxnKcuMFcaK2yDe9e0K3jg/exec';
+var RAZ_SHEET='https://script.google.com/macros/s/AKfycbzJ1JjJ5JZ0dtPyJuJe2Z0hJ2WnDPdHO4PkJgC1PuMG0CG3HMjQ6H-FW9moxPntaUob/exec';
+
+function submitToSheet(formEl, prefix, sheetUrl){
+  var data=new FormData(formEl);
+  var params=new URLSearchParams();
+  data.forEach(function(v,k){params.append(k,v)});
+  // שליחה לגוגל שיטס
+  fetch(sheetUrl,{method:'POST',body:params,mode:'no-cors'})
+  .then(function(){
+    document.getElementById(prefix+'-form-wrap').style.display='none';
+    document.getElementById(prefix+'-ok').classList.add('show');
+  })
+  .catch(function(){
+    document.getElementById(prefix+'-form-wrap').style.display='none';
+    document.getElementById(prefix+'-ok').classList.add('show');
+  });
+  // גם ל-Netlify Forms
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(data).toString()}).catch(function(){});
+}
+var mf=document.getElementById('m-form');
+if(mf){
+  mf.addEventListener('submit',function(e){e.preventDefault();if(validateForm('m')){submitToSheet(mf,'m',MIRIAM_SHEET)}});
+  mf.querySelectorAll('input,textarea').forEach(el=>el.addEventListener('input',function(){this.classList.remove('fe')}));
+}
+var rf=document.getElementById('r-form');
+if(rf){
+  rf.addEventListener('submit',function(e){e.preventDefault();if(validateForm('r')){submitToSheet(rf,'r',RAZ_SHEET)}});
+  rf.querySelectorAll('input,textarea').forEach(el=>el.addEventListener('input',function(){this.classList.remove('fe')}));
+}
+
+// Nav active
+var secs=document.querySelectorAll('section[id]'),navAs=document.querySelectorAll('.nav-links a');
+new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){navAs.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+e.target.id)a.classList.add('active')})}});
+},{threshold:0.4,rootMargin:'-80px 0px 0px 0px'}).observe&&secs.forEach(s=>new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){navAs.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+e.target.id)a.classList.add('active')})}});
+},{threshold:0.4,rootMargin:'-80px 0px 0px 0px'}).observe(s));
+</script>
+</body>
+</html>
