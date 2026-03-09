@@ -7,7 +7,7 @@
 ## הפרויקט
 - קובץ יחיד: `index.html` — הכל בפנים (CSS + HTML + JS)
 - שפה: עברית, RTL (`dir="rtl"`, `lang="he"`)
-- פלטפורמת העלאה: Netlify (חינמי)
+- פלטפורמת העלאה: GitHub Pages (repo: GrowthPilot, branch: main)
 
 ## עיצוב
 - צבע ראשי (מרים): `#135bec`
@@ -27,57 +27,44 @@
 
 ## אנשי קשר
 - מרים טבול: 052-646-9288 | mariatar@gmail.com
-- רז שמריה: 054-652-2650
+- רז שמריה: 054-652-2650 | Razshmaria@gmail.com
 
-## קבצים נוספים בתיקייה
-- `מכתב המלצה - רז שמריה.pdf` — מופיע בפרופיל רז
-- `raz/WhatsApp Image 2026-03-04 at 19.47.17.jpeg` — תמונת אפליקציה DriveSchool
-- יש להעלות את כל התיקייה ל-Netlify (לא רק index.html)
+## קבצים בתיקייה
+- `raz/driveschool-app.jpeg` — תמונת אפליקציה DriveSchool
+- `raz/raz-recommendation.pdf` — מכתב המלצה רז
+- יש להעלות את כל התיקייה (git push מעלה הכל אוטומטית)
 
 ## טפסים וחיבור לידים
-- טופס מרים: `name="miriam-leads"` — Netlify Forms + Google Sheets
-- טופס רז: `name="raz-leads"` — Netlify Forms בלבד (ממתין ל-URL של רז)
-- שליחה כפולה: גם ל-Netlify Forms וגם ל-Google Apps Script
-- Google Apps Script של מרים: `MIRIAM_SHEET` בקוד ה-JS
-- רז צריך ליצור גיליון משלו בחשבון Google שלו ולשלוח URL → יש לעדכן `RAZ_SHEET` בקוד
+- טופס מרים: `name="miriam-leads"` — Google Sheets בלבד (Netlify Forms לא פעיל ב-GitHub Pages)
+- טופס רז: `name="raz-leads"` — Google Sheets בלבד
+- `MIRIAM_SHEET` — URL של Apps Script מרים (בקוד JS)
+- `RAZ_SHEET` — URL של Apps Script רז: `https://script.google.com/macros/s/AKfycbzJ1JjJ5JZ0dtPyJuJe2Z0hJ2WnDPdHO4PkJgC1PuMG0CG3HMjQ6H-FW9moxPntaUob/exec`
+- Apps Script צריך לקבל `e.parameter` (לא JSON) — `params.name`, `params.phone`, `params.email`, `params.business`, `params.message`
 
-## פרופיל מרים — "מה אני בונה"
-3 שירותים בכרטיסים צבעוניים עם hover animation:
-1. **דפי נחיתה חכמים לעסקים** (כחול)
-2. **בוט וואטסאפ חכם לעסקים** (ירוק)
-3. **אפליקציות עסקיות לפי דרישה** (סגול)
+## פרופיל מרים — מבנה נוכחי
+- Hero: שם + תיאור (מומחית לאוטומציות ופתרונות AI)
+- פרויקטים נבחרים: 3 כרטיסי שורה (תמונה שמאל + תוכן ימין) — כמו רז
+  1. דף נחיתה חכם + רשתות חברתיות/ביט/פייבוקס
+  2. דף נחיתה + דשבורד נתונים
+  3. דף נחיתה + אוטומציות גוגל
+- טופס יצירת קשר
 
-## פרופיל רז — פרויקטים אמיתיים
-1. **DriveSchool** — אפליקציה לניהול בית ספר לנהיגה (תמונה אמיתית מ-`raz/`)
-2. **מערכת Commissioning ו-QA/QC** — עבור חברת Cx-Plus (עדי אביסידריס)
-- גריד של 2 כרטיסים ממורכז (`port-grid-2`)
+## פרופיל רז — מבנה נוכחי
+- Hero: שם + תיאור
+- מכתב המלצה (Cx-Plus) + כפתור PDF
+- פרויקטים: DriveSchool + מערכת QAQC (כרטיסי שורה)
+- Highlights: 3 כרטיסים (flex column)
+- טופס יצירת קשר
 
-## פרופיל רז — מכתב המלצה
-- מוצג כ-section לפני טופס יצירת קשר
-- כרטיס ציטוט עם הדגשות מהמכתב + כפתור לצפייה ב-PDF
-- PDF חייב להיות בתיקייה הראשית בעת העלאה ל-Netlify
+## כלל CSS חשוב — מובייל
+- inline styles **לא נדרסים** ע"י @media CSS
+- לשינוי שיעבוד בנייד: לשנות ה-inline style ישירות ב-HTML
+- פתרון מוכח: `display:flex;flex-direction:column` ב-inline style במקום grid
 
-## עדכונים אחרונים שבוצעו
-- הוסרו תמונות אנשים — הוחלפו בתמונות Unsplash קשורות לטכנולוגיה
-- רצועת מובייל כחולה מתחת ל-navbar: "הגיע הזמן להטיס את העסק שלכם קדימה"
-- "תוך 24 שעות" הוחלף ב"בהקדם" / "בהקדם האפשרי"
-- צבעי footer יצירת קשר — אחידים עם פלטת הכחול
-- גדילה חודשית שונתה מ-340% ל-60%
-- פרויקטי רז עוצבו מחדש כשורות אופקיות (תמונה שמאל + תוכן ימין)
-- תמונת DriveSchool שונה שם ל-`raz/driveschool-app.jpeg` (ללא רווחים)
-
-## קבצים בתיקייה — מעודכן
-- `raz/driveschool-app.jpeg` — תמונת אפליקציה DriveSchool (שם ישן: WhatsApp Image...)
-- `מכתב המלצה - רז שמריה.pdf`
-
-## משימה פתוחה — תיקון נייד לפרויקטי רז
-**הבעיה:** בנייד, הפרויקטים של רז נראים לא טוב:
-- התמונה של DriveSchool לא מופיעה
-- המלל לא ברור
-- הפריסה האופקית (grid-template-columns:280px 1fr) לא מתאימה למובייל
-
-**מה צריך לעשות:**
-- בנייד (max-width:600px) — לעבור לפריסה אנכית: תמונה למעלה, טקסט למטה
-- לוודא שתמונת DriveSchool מוצגת נכון בנייד
-- לפשט את המלל בנייד — פחות עמוס
-- ה-class הרלוונטי: `.raz-proj-card` ו-`.raz-proj-img`
+## עדכון לגיטהאב
+```bash
+git add .
+git commit -m "תיאור השינוי"
+git push
+```
+GitHub Pages מתעדכן אוטומטית תוך ~30 שניות.
